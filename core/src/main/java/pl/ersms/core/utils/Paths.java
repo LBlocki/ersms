@@ -28,4 +28,6 @@ public class Paths {
 
     public static final String FETCH_CLIENT_MENU_ITEMS_BY_STATE = "/api/client/menu-items/fetch-by-state";
 
+    public static final String FETCH_OWN_RESTAURANT = "/api/restaurant/fetch";
+
 }

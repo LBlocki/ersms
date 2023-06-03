@@ -29,6 +29,11 @@ public class RestaurantController {
         return restaurantService.createNewRestaurant(request);
     }
 
+    @GetMapping(path = Paths.FETCH_OWN_RESTAURANT, produces = "application/json")
+    public RestaurantDTO fetchOwnRestaurant() {
+        return restaurantService.fetchOwnRestaurant();
+    }
+
     @PostMapping(path = Paths.CREATE_NEW_MENU_ITEM, consumes = "application/json", produces = "application/json")
     public MenuItemDTO createNewMenuItem(@RequestBody final CreateNewMenuItemRequest request) {
         return restaurantService.createNewMenuItem(request);

@@ -59,6 +59,11 @@ Local-username: local-user-1
   "phoneNumber": "123456789"
 }
 
+### GET own restaurant
+GET http://localhost:8080/api/restaurant/fetch
+Accept: application/json
+Local-roles: ROLE_RESTAURANT_OWNER
+Local-username: local-user-1
 
 ### POST Create new menu item
 POST http://localhost:8080/api/restaurant/menu-items/create

@@ -47,6 +47,14 @@ public class RestaurantService {
     }
 
     @Transactional
+    public RestaurantDTO fetchOwnRestaurant() {
+        restaurantValidator.validateFetchOwnRestaurant();
+        log.debug("Fetching own restaurant for user {}", securityService.getUsername());
+        var restaurant = restaurantRepository.findByUserId(securityService.getUsername()).orElseThrow();
+        return RestaurantConverter.convertRestaurantToDTO(restaurant);
+    }
+
+    @Transactional
     public RestaurantDTO createNewRestaurant(final CreateNewRestaurantRequest request) {
         restaurantValidator.validateCreateNewRestaurantRequest(request);
         log.debug("Creating new restaurant for user {} with request {}", securityService.getUsername(), request);

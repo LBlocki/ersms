@@ -62,6 +62,17 @@ public class RestaurantValidator {
         }
     }
 
+    public void validateFetchOwnRestaurant() {
+        if (!securityService.isRestaurantOwner()) {
+            throw new AccessDeniedException("Only restaurant owners can fetch their restaurant.");
+        }
+        var restaurant = restaurantRepository.findByUserId(securityService.getUsername());
+        if (restaurant.isEmpty()) {
+            throw new ConstraintViolationException("User with username " + securityService.getUsername() +
+                    " does not have a restaurant yet", Collections.emptySet());
+        }
+    }
+
     public void validateCreateNewRestaurantRequest(final CreateNewRestaurantRequest request) {
         if (!securityService.isAdmin() && !securityService.isRestaurantOwner()) {
             throw new AccessDeniedException("Only restaurant owners and admins can create restaurants.");

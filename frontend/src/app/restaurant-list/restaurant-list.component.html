@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="my-5">
+
+      <div class="card my-3 " *ngFor="let restaurant of restaurants" >
+        <div class="card-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-4">
+                <h3>{{restaurant.name}}</h3>
+                <div class="container p-0">
+                  <div class="row m-0">
+                    <div class="col-1 card-text px-0">
+                      <h6><i class="fa-regular fa-clock"></i></h6>
+                    </div>
+                    <div class="col-11 card-text px-0">
+                      <h6> {{restaurant.open}}</h6>
+                    </div>
+                  </div>
+                  <div class="row m-0">
+                    <div class="col-1 card-text px-0">
+                      <h6><i class="fa-solid fa-money-bill"></i></h6>
+                    </div>
+                    <div class="col-11 card-text px-0">
+                      <h6> {{restaurant.lowestPrice}} - {{restaurant.highestPrice}}</h6>
+                    </div>
+                  </div>
+                  <div class="row m-0">
+                    <div class="col-1 card-text px-0">
+                      <h6><i class="fa-solid fa-gift"></i></h6>
+                    </div>
+                    <div class="col-11 card-text px-0">
+                      <h6> {{restaurant.count}} Boxes</h6>
+                    </div>
+                  </div>
+                  <div class="row m-0">
+                    <div class="col-1 card-text px-0">
+                      <h6><i class="fa-regular fa-comment"></i> </h6>
+                    </div>
+                    <div class="col-11 card-text px-0">
+                      <h6>{{restaurant.description}}</h6> <!-- TODO dodać zwijanie tekstu -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-8 text-end">
+                <img src="https://placekitten.com/700/200" class="rounded" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

@@ -14,7 +14,11 @@ export class RestaurantListComponent {
       open: "4:20 - 21:37",
       lowestPrice: "30zł",
       highestPrice: "60zł",
-      count: 15
+      count: 15,
+      packs: [{id: 6, name: "Bułeczki", price: "20zł"},
+        {id: 6, name: "Bułeczki", price: "20zł"},
+        {id: 6, name: "Bułeczki", price: "20zł"}
+      ]
     }
   ]
 

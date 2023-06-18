@@ -41,6 +41,13 @@ resource "azurerm_mssql_database" "db" {
   server_id = azurerm_mssql_server.server.id
 }
 
+# Email
+resource "azurerm_email_communication_service" "email-cs" {
+  name                = "ersms-email-cs"
+  resource_group_name = azurerm_resource_group.rg.name
+  data_location       = "Europe"
+}
+
 # Service bus
 resource "azurerm_servicebus_namespace" "ersms_servicebus" {
   name                = "ersms-servicebus"
@@ -49,7 +56,14 @@ resource "azurerm_servicebus_namespace" "ersms_servicebus" {
   sku                 = "Standard"
 }
 
-# resource "azurerm_servicebus_topic" "notifications" {
+# Event grid
+# resource "azurerm_eventgrid_topic" "ersms_eventgrid_topic" {
+#   name                = "ersms-eventgrid-topic"
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+# }
+
+# resource "azurerm_servicebus_queue" "notifications" {
 #   name                = "notifications"
 #   namespace_name      = azurerm_servicebus_namespace.ersms_servicebus.name
 #   resource_group_name = azurerm_resource_group.rg.name

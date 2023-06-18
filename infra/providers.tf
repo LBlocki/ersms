@@ -10,6 +10,7 @@ terraform {
       version = "~>3.0"
     }
   }
+  # https://learn.microsoft.com/en-us/azure/developer/terraform/store-state-in-azure-storage?tabs=azure-cli
   backend "azurerm" {
     resource_group_name  = "tfstate"
     storage_account_name = "tfstatethirdbite"

@@ -79,34 +79,45 @@ resource "azurerm_servicebus_namespace" "ersms_servicebus" {
 # }
 
 # Function app
-# resource "azurerm_storage_account" "ersms_notification_function_storage_account" {
-#   name                     = "ersmsfunctionsa"
-#   resource_group_name      = azurerm_resource_group.rg.name
-#   location                 = azurerm_resource_group.rg.location
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
-# }
+resource "azurerm_storage_account" "ersms_notification_function_storage_account" {
+  name                     = "ersmsfunctionsa"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
 
-# resource "azurerm_service_plan" "ersms_service_plan" {
-#   name                = "ersms-service-plan"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-#   os_type             = "Linux"
-#   sku_name            = "Y1"
-# }
+resource "azurerm_service_plan" "ersms_service_plan" {
+  name                = "ersms-service-plan"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  os_type             = "Linux"
+  sku_name            = "Y1"
+}
 
-# resource "azurerm_linux_function_app" "ersms_notification_function" {
-#   name                       = "ersms-notification-function"
-#   location                   = azurerm_resource_group.rg.location
-#   resource_group_name        = azurerm_resource_group.rg.name
-#   app_service_plan_id        = azurerm_app_service_plan.ersms_notification_function_app_service_plan.id
-#   storage_account_name       = azurerm_storage_account.ersms_notification_function_storage_account.name
-#   storage_account_access_key = azurerm_storage_account.ersms_notification_function_storage_account.primary_access_key
-#   version                    = "~4"
-#   python_version             = "~3.8"
-#   app_settings = {
-#     "FUNCTIONS_WORKER_RUNTIME"   = "python"
-#     "AzureWebJobsStorage"        = azurerm_storage_account.ersms_notification_function_storage_account.primary_connection_string
-#     "ServiceBusConnectionString" = azurerm_servicebus_namespace.ersms_servicebus.default_primary_connection_string
-#   }
-# }
+resource "azurerm_linux_function_app" "ersms_notification_function" {
+  name                = "ersms-notification-function"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  service_plan_id            = azurerm_service_plan.ersms_service_plan.id
+  storage_account_name       = azurerm_storage_account.ersms_notification_function_storage_account.name
+  storage_account_access_key = azurerm_storage_account.ersms_notification_function_storage_account.primary_access_key
+
+  site_config {
+    cors {
+      allowed_origins     = ["*"]
+      support_credentials = false
+    }
+    application_stack {
+      dotnet_version = "6.0"
+    }
+    # app_command_line         = "ersms-notification-function.dll"
+  }
+
+  app_settings = {
+    "FUNCTIONS_WORKER_RUNTIME"   = "dotnet"
+    "AzureWebJobsStorage"        = azurerm_storage_account.ersms_notification_function_storage_account.primary_connection_string
+    "ServiceBusConnectionString" = azurerm_servicebus_namespace.ersms_servicebus.default_primary_connection_string
+  }
+}

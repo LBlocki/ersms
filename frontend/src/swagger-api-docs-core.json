@@ -1,0 +1,533 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/restaurant/menu-items/fetch": {
+      "post": {
+        "tags": [
+          "restaurant-controller"
+        ],
+        "operationId": "fetchRestaurantMenuItems",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FetchRestaurantMenuItemsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MenuItemDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/menu-items/create": {
+      "post": {
+        "tags": [
+          "restaurant-controller"
+        ],
+        "operationId": "createNewMenuItem",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewMenuItemRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuItemDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/menu-items/change-state": {
+      "post": {
+        "tags": [
+          "restaurant-controller"
+        ],
+        "operationId": "changeMenuItemStateByRestaurant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeMenuItemStateByRestaurantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuItemDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/create": {
+      "post": {
+        "tags": [
+          "restaurant-controller"
+        ],
+        "operationId": "createNewRestaurant",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNewRestaurantRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestaurantDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/menu-items/fetch-by-state": {
+      "post": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "fetchClientMenuItemsByState",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FetchClientMenuItemsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MenuItemDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/menu-items/change-state": {
+      "post": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "changeMenuItemStateByClient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeMenuItemStateByClientRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MenuItemDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/restaurant/approve/{restaurantId}": {
+      "post": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "approveRestaurant",
+        "parameters": [
+          {
+            "name": "restaurantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/restaurant/fetch": {
+      "get": {
+        "tags": [
+          "restaurant-controller"
+        ],
+        "operationId": "fetchOwnRestaurant",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestaurantDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/client/menu-items/fetch": {
+      "get": {
+        "tags": [
+          "client-controller"
+        ],
+        "operationId": "fetchAllPendingMenuItems",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MenuItemDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restaurant/menu-items/delete/{menuItemId}": {
+      "delete": {
+        "tags": [
+          "restaurant-controller"
+        ],
+        "operationId": "deleteMenuItem",
+        "parameters": [
+          {
+            "name": "menuItemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/restaurant/delete": {
+      "delete": {
+        "tags": [
+          "restaurant-controller"
+        ],
+        "operationId": "deleteRestaurant",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/restaurant/delete/{restaurantId}": {
+      "delete": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "deleteRestaurant_1",
+        "parameters": [
+          {
+            "name": "restaurantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FetchRestaurantMenuItemsRequest": {
+        "required": [
+          "state"
+        ],
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "PENDING",
+              "RESERVED",
+              "FINISHED"
+            ]
+          }
+        }
+      },
+      "MenuItemDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "restaurantId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "PENDING",
+              "RESERVED",
+              "FINISHED"
+            ]
+          }
+        }
+      },
+      "CreateNewMenuItemRequest": {
+        "required": [
+          "description",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 3,
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 4096,
+            "minLength": 3,
+            "type": "string"
+          },
+          "price": {
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "type": "number"
+          }
+        }
+      },
+      "ChangeMenuItemStateByRestaurantRequest": {
+        "required": [
+          "change",
+          "menuItemId"
+        ],
+        "type": "object",
+        "properties": {
+          "menuItemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "change": {
+            "type": "string",
+            "enum": [
+              "APPROVE",
+              "DENY",
+              "COMPLETE"
+            ]
+          }
+        }
+      },
+      "CreateNewRestaurantRequest": {
+        "required": [
+          "addressBuildingNumber",
+          "addressCity",
+          "addressStreet",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 3,
+            "type": "string"
+          },
+          "addressCity": {
+            "maxLength": 50,
+            "minLength": 3,
+            "type": "string"
+          },
+          "addressStreet": {
+            "maxLength": 50,
+            "minLength": 3,
+            "type": "string"
+          },
+          "addressBuildingNumber": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "addressFlatNumber": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "phoneNumber": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "RestaurantDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "addressCity": {
+            "type": "string"
+          },
+          "addressStreet": {
+            "type": "string"
+          },
+          "addressBuildingNumber": {
+            "type": "string"
+          },
+          "addressFlatNumber": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "isApproved": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FetchClientMenuItemsRequest": {
+        "required": [
+          "state"
+        ],
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RESERVED",
+              "FINISHED"
+            ]
+          }
+        }
+      },
+      "ChangeMenuItemStateByClientRequest": {
+        "required": [
+          "change",
+          "menuItemId"
+        ],
+        "type": "object",
+        "properties": {
+          "menuItemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "change": {
+            "type": "string",
+            "enum": [
+              "RESERVE",
+              "CANCEL"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

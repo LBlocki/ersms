@@ -1,0 +1,123 @@
+# CLIENT #################################################################
+
+### GET Get all menu items in available state from all restaurants
+GET http://localhost:8080/api/client/menu-items/fetch
+Accept: application/json
+Local-roles: ROLE_CLIENT
+Local-username: local-user-1
+
+### POST Get all client menu items in specified state
+POST http://localhost:8080/api/client/menu-items/fetch-by-state
+Accept: application/json
+Content-Type: application/json
+Local-roles: ROLE_CLIENT
+Local-username: local-user-1
+
+{
+  "state": "FINISHED"
+}
+
+
+### POST change state of menu item
+POST http://localhost:8080/api/client/menu-items/change-state
+Accept: application/json
+Content-Type: application/json
+Local-roles: ROLE_CLIENT
+Local-username: local-user-1
+
+{
+  "menuItemId": 1,
+  "change": "RESERVE"
+}
+
+###
+# RESTAURANT OWNERS ####################################################
+### GET Get all menu-items of restaurant with specified state
+POST http://localhost:8080/api/restaurant/menu-items/fetch
+Accept: application/json
+Content-Type: application/json
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1
+
+{
+  "state": "FINISHED"
+}
+
+
+### POST Create new restaurant
+POST http://localhost:8080/api/restaurant/create
+Accept: application/json
+Content-Type: application/json
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1
+
+{
+  "name": "Restaurant 1",
+  "addressCity": "Warszawa",
+  "addressStreet": "Koszykowa",
+  "addressBuildingNumber": "86",
+  "phoneNumber": "123456789"
+}
+
+### GET own restaurant
+GET http://localhost:8080/api/restaurant/fetch
+Accept: application/json
+Local-roles: ROLE_RESTAURANT_OWNER
+Local-username: local-user-1
+
+### POST Create new menu item
+POST http://localhost:8080/api/restaurant/menu-items/create
+Accept: application/json
+Content-Type: application/json
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1
+
+{
+  "name": "Coca Cola",
+  "price": 2.5,
+  "description": "Coca Cola 0.5L",
+  "restaurantId": 1
+}
+
+
+### DELETE Delete menu item
+DELETE http://localhost:8080/api/restaurant/menu-items/delete/1
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1
+
+
+### DELETE Delete restaurant
+DELETE http://localhost:8080/api/restaurant/delete
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1
+
+### POST Change state of menu item by restaurant
+POST http://localhost:8080/api/restaurant/menu-items/change-state
+Accept: application/json
+Content-Type: application/json
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1
+
+{
+  "menuItemId": 1,
+  "change": "COMPLETE"
+}
+
+
+
+###
+# ADMIN #################################################################
+
+
+### POST Approve restaurant
+POST http://localhost:8080/api/admin/restaurant/approve/1
+Accept: application/json
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1
+
+
+### DELETE Delete any restaurant
+DELETE http://localhost:8080/api/admin/restaurant/delete/3
+Accept: application/json
+Local-roles: ROLE_ADMIN
+Local-username: local-user-1

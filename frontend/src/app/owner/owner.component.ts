@@ -4,6 +4,9 @@ import {SpinnerService, SpinnerType} from "../commons/spinner/spinner.service";
 import {RestaurantControllerService} from "../../generated-code/services/restaurant-controller.service";
 import {MenuItemDto} from "../../generated-code/models/menu-item-dto";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {FetchRestaurantMenuItemsRequest} from "../../generated-code/models/fetch-restaurant-menu-items-request";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import {NewEntryModalComponent} from "./modal/new-entry-modal/new-entry-modal.component";
 
 @Component({
   selector: 'app-owner',
@@ -16,7 +19,10 @@ export class OwnerComponent implements OnInit {
 
   faPlus = faPlus;
 
-  constructor(private spinnerService: SpinnerService, private restaurantControllerService: RestaurantControllerService) {
+  bsModalRef!: BsModalRef;
+
+  constructor(private spinnerService: SpinnerService, private restaurantControllerService: RestaurantControllerService,
+              private modalService: BsModalService) {
     this.configs.push(
       {
         topName: "Oczekujące",
@@ -110,23 +116,27 @@ export class OwnerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.configs?.forEach(config => {
-    //   this.spinnerService.enableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
-    //   this.restaurantControllerService.fetchRestaurantMenuItems({
-    //     body: {
-    //       state: config.state
-    //     }
-    //   }).subscribe({
-    //     next: (data: Array<MenuItemDto>) => {
-    //       config.menuItems = data;
-    //       this.spinnerService.disableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
-    //     },
-    //     error: () => {
-    //       this.spinnerService.disableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
-    //       config.menuItems = [];
-    //     }
-    //   });
-    // });
+    this.loadItems();
+  }
+
+  loadItems() {
+    this.configs?.forEach(config => {
+      this.spinnerService.enableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
+      this.restaurantControllerService.fetchRestaurantMenuItems({
+        body: {
+          state: config.state
+        }
+      }).subscribe({
+        next: (data: Array<MenuItemDto>) => {
+          config.menuItems = data;
+          this.spinnerService.disableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
+        },
+        error: () => {
+          this.spinnerService.disableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
+          config.menuItems = [];
+        }
+      });
+    });
   }
 
   isSpinnerEnabled(spinnerId: number): boolean {
@@ -148,6 +158,13 @@ export class OwnerComponent implements OnInit {
   displayNewEntryModal() {
     //todo
     console.log('todo')
+    this.bsModalRef = this.modalService.show(NewEntryModalComponent)
+
+    this.bsModalRef.content.savedNewEntryStatusesChanged.subscribe(() =>
+    {
+      console.log()
+      this.loadItems();
+    });
   }
 }
 

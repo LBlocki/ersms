@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add new pack</h4>
+  <div class="action-icon-container">
+    <fa-icon class="delete-icon" (click)="closeModal()" [icon]="faWindowClose"></fa-icon>
+
+  </div>
+</div>
+<div class="modal-body" [formGroup]="newItemForm">
+  <div class="row align-items-center">
+    <div class="col-12">
+      <label>Name</label>
+      <input class="form-control" formControlName = "name" type = "text" [ngClass]="{'is-invalid': newItemForm.controls['name'].invalid}">
+    </div>
+    <div class="col-12">
+      <label>Description</label>
+      <input class="form-control" formControlName = "description" type = "text" [ngClass]="{'is-invalid': newItemForm.controls['description'].invalid}">
+    </div>
+    <div class="col-12">
+      <label>Price</label>
+      <input class="form-control" formControlName = "price" type = "text" [ngClass]="{'is-invalid': newItemForm.controls['price'].invalid}">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" [disabled]="newItemForm.invalid" (click)="saveModal()">Save</button>
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+</div>
+

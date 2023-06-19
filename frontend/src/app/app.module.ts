@@ -11,13 +11,18 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {NotificationHttpInterceptorService} from "./commons/notification/notification-http-interceptor.service";
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {LocalheadersInterceptor} from "./localheaders.interceptor";
+import { NewEntryModalComponent } from './owner/modal/new-entry-modal/new-entry-modal.component';
+import {ModalModule} from "ngx-bootstrap/modal";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuItemComponent,
     SpinnerComponent,
-    OwnerComponent
+    OwnerComponent,
+    NewEntryModalComponent
   ],
   imports: [
     BrowserModule,
@@ -25,12 +30,19 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     HttpClientModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ModalModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: NotificationHttpInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LocalheadersInterceptor,
       multi: true
     }
   ],

@@ -1,8 +1,7 @@
 package pl.ersms.core.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -13,6 +12,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "restaurants")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

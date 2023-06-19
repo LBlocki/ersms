@@ -1,8 +1,7 @@
 package pl.ersms.core.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -15,6 +14,9 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "menu_items")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -15,6 +15,8 @@ import {LocalheadersInterceptor} from "./localheaders.interceptor";
 import { NewEntryModalComponent } from './owner/modal/new-entry-modal/new-entry-modal.component';
 import {ModalModule} from "ngx-bootstrap/modal";
 import {ReactiveFormsModule} from "@angular/forms";
+import { AdminComponent } from './admin/admin.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     MenuItemComponent,
     SpinnerComponent,
     OwnerComponent,
-    NewEntryModalComponent
+    NewEntryModalComponent,
+    AdminComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

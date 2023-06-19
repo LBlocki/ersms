@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {animate, style, transition, trigger} from "@angular/animations";
 import {faWindowClose} from '@fortawesome/free-solid-svg-icons';
 import {MenuItemDto} from "../../../generated-code/models/menu-item-dto";
-import {OwnerTypeConfig} from "../../owner/owner.component";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 @Component({
   selector: 'app-menu-item',
@@ -27,9 +27,9 @@ import {OwnerTypeConfig} from "../../owner/owner.component";
 export class MenuItemComponent {
 
   @Input()
-  menuItem: MenuItemDto | undefined;
+  menuItem: MenuItemDto  = {} as MenuItemDto;
   @Input()
-  config: OwnerTypeConfig | undefined;
+  config: Config | undefined;
   @Output()
   deleteMenuItemEvent = new EventEmitter<number>();
   faWindowClose = faWindowClose;
@@ -37,4 +37,20 @@ export class MenuItemComponent {
   deleteMenuItem() {
     this.deleteMenuItemEvent.emit(this.menuItem?.id);
   }
+}
+
+export interface Config {
+  topName: string;
+  state: string;
+  menuItems: MenuItemDto[];
+  canBeRemoved: boolean;
+  buttonConfigs: ButtonConfig[];
+  spinnerId: number;
+}
+
+export interface ButtonConfig {
+  text: string;
+  cssClass: string;
+  icon: IconProp;
+  action: (menuItem: MenuItemDto) => void;
 }

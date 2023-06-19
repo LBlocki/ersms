@@ -264,6 +264,29 @@
         }
       }
     },
+    "/api/admin/restaurants": {
+      "get": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "fetchAllRestaurantsNotApproved",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RestaurantDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/restaurant/menu-items/delete/{menuItemId}": {
       "delete": {
         "tags": [
@@ -394,7 +417,7 @@
             "type": "string"
           },
           "price": {
-            "minimum": 0,
+            "minimum": 0.0,
             "exclusiveMinimum": true,
             "type": "number"
           }

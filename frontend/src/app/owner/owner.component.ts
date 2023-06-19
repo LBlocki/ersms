@@ -1,21 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {faPlus, faTimes, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {faArrowRight, faPlus, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {SpinnerService, SpinnerType} from "../commons/spinner/spinner.service";
 import {RestaurantControllerService} from "../../generated-code/services/restaurant-controller.service";
 import {MenuItemDto} from "../../generated-code/models/menu-item-dto";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import {FetchRestaurantMenuItemsRequest} from "../../generated-code/models/fetch-restaurant-menu-items-request";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {NewEntryModalComponent} from "./modal/new-entry-modal/new-entry-modal.component";
+import {Config} from "../commons/menu-item/menu-item.component";
+import {interval, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-owner',
   templateUrl: './owner.component.html',
   styleUrls: ['./owner.component.scss']
 })
-export class OwnerComponent implements OnInit {
+export class OwnerComponent implements OnInit, OnDestroy {
 
-  configs: OwnerTypeConfig[] = [];
+  configs: Config[] = [];
 
   faPlus = faPlus;
 
@@ -25,87 +25,78 @@ export class OwnerComponent implements OnInit {
               private modalService: BsModalService) {
     this.configs.push(
       {
-        topName: "Oczekujące",
+        topName: "Awaiting reservation",
         state: "AVAILABLE",
-        menuItems: [{
-          id: 1,
-          name: "Pizza",
-          description: "Pizza",
-          price: 10,
-          state: "AVAILABLE"
-        },
-          {
-            id: 2,
-            name: "Pasta",
-            description: "Pasta",
-            price: 10,
-            state: "AVAILABLE"
-          }],
+        menuItems: [],
         canBeRemoved: true,
         buttonConfigs: [],
         spinnerId: 1
       },
       {
-        topName: "Do potwierdzenia",
+        topName: "Requires confirmation",
         state: "PENDING",
-        menuItems: [
-          {
-            id: 4,
-            name: "Soup",
-            description: "Soup",
-            price: 10,
-            "state": "PENDING"
-          }
-        ],
+        menuItems: [],
         canBeRemoved: true,
         buttonConfigs: [
           {
             text: "Zaakceptuj",
             cssClass: "btn btn-success",
             icon: faArrowRight,
-            action: () => {
-              console.log("Zaakceptuj");
-              //todo
+            action: (menuItem: MenuItemDto) => {
+             restaurantControllerService.changeMenuItemStateByRestaurant({
+               body: {
+                 change: 'APPROVE',
+                  menuItemId: menuItem.id as number
+               }
+             }).subscribe((menuItem: MenuItemDto) => {
+               this.resortMenuItem(menuItem);
+             });
             }
           },
           {
             text: "Odrzuć",
             cssClass: "btn btn-danger",
             icon: faTimes,
-            action: () => {
-              console.log("Odrzuć");
-              //todo
+            action: (menuItem: MenuItemDto) => {
+              restaurantControllerService.changeMenuItemStateByRestaurant({
+                body: {
+                  change: 'DENY',
+                  menuItemId: menuItem.id as number
+                }
+              }).subscribe((menuItem: MenuItemDto) => {
+                this.resortMenuItem(menuItem);
+              });
             }
           }
         ],
         spinnerId: 2
       },
       {
-        topName: "Zarezerwowane",
+        topName: "Awaiting pickup",
         state: "RESERVED",
-        menuItems: [{
-          id: 3,
-          name: "Salad",
-          description: "Salad",
-          price: 10,
-          "state": "RESERVED"
-        }],
+        menuItems: [],
         canBeRemoved: false,
         buttonConfigs: [
           {
             text: "Zakończ",
             cssClass: "btn btn-success",
             icon: faArrowRight,
-            action: () => {
-              console.log("Zakończ");
-              //todo
+            action: (menuItem: MenuItemDto) => {
+              restaurantControllerService.changeMenuItemStateByRestaurant({
+                body: {
+                  change: 'COMPLETE',
+                  menuItemId: menuItem.id as number
+                }
+              }).subscribe((menuItem: MenuItemDto) => {
+                this.resortMenuItem(menuItem);
+              });
             }
           }
         ],
         spinnerId: 3
       },
       {
-        topName: "Zakończone",
+        topName: "Finished",
         state: "FINISHED",
         menuItems: [],
         canBeRemoved: false,
@@ -115,16 +106,31 @@ export class OwnerComponent implements OnInit {
     );
   }
 
+  private subscription: Subscription = {} as Subscription;
+
   ngOnInit(): void {
-    this.loadItems();
+    this.loadItems(true);
+    const intervalTime = 10000;
+    this.subscription = interval(intervalTime).subscribe(() => {
+      this.loadItems();
+    });
   }
 
-  loadItems() {
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+
+  loadItems(withSpinners: boolean = false) {
     this.configs?.forEach(config => {
-      this.spinnerService.enableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
+      if (withSpinners) {
+        this.spinnerService.enableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, config.spinnerId);
+      }
       this.restaurantControllerService.fetchRestaurantMenuItems({
         body: {
-          state: config.state
+          state: config.state as any
         }
       }).subscribe({
         next: (data: Array<MenuItemDto>) => {
@@ -151,8 +157,17 @@ export class OwnerComponent implements OnInit {
     this.restaurantControllerService.deleteMenuItem({
       menuItemId: menuItemId
     }).subscribe(_ => {
-      //todo odfiltrować
+      this.configs.forEach(config => {
+        config.menuItems = config.menuItems.filter(item => item.id != menuItemId);
+      })
     });
+  }
+
+  resortMenuItem(menuItem: MenuItemDto) {
+    this.configs.forEach(config => {
+      config.menuItems = config.menuItems.filter(item => item.id != menuItem.id);
+    });
+    this.configs.find(config => config.state == menuItem.state)?.menuItems.push(menuItem);
   }
 
   displayNewEntryModal() {
@@ -166,20 +181,4 @@ export class OwnerComponent implements OnInit {
       this.loadItems();
     });
   }
-}
-
-export interface OwnerTypeConfig {
-  topName: string;
-  state: "AVAILABLE" | "PENDING" | "RESERVED" | "FINISHED";
-  menuItems: MenuItemDto[];
-  canBeRemoved: boolean;
-  buttonConfigs: ButtonConfig[];
-  spinnerId: number;
-}
-
-export interface ButtonConfig {
-  text: string;
-  cssClass: string;
-  icon: IconProp;
-  action: () => void;
 }

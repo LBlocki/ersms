@@ -5,7 +5,7 @@
     <h5>{{menuItem?.description}}</h5>
   </div>
   <div *ngFor="let buttonConfig of config?.buttonConfigs">
-    <button [class]="buttonConfig.cssClass" (click)="buttonConfig.action">
+    <button [class]="buttonConfig.cssClass" (click)="buttonConfig.action(menuItem)">
       {{buttonConfig.text}}
       <fa-icon [icon]="buttonConfig.icon"></fa-icon>
     </button>

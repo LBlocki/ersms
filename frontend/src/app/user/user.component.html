@@ -1,16 +1,12 @@
-<h1>Twoja restauracja</h1>
+<h1>Witaj użytkowniku</h1>
 <div class="app-container" *ngFor="let typeConfig of configs">
   <h2>{{typeConfig.topName}}</h2>
   <app-spinner class="spinner" *ngIf="isSpinnerEnabled(typeConfig.spinnerId)" [spinnerType]="getSpinnerType()" [message]="'Loading...'"></app-spinner>
   <div *ngIf="!isSpinnerEnabled(typeConfig.spinnerId)">
     <h5 *ngIf="typeConfig.menuItems.length === 0">No items</h5>
     <ul class="menu-item-list" *ngFor="let menuItem of typeConfig.menuItems">
-      <app-menu-item [menuItem]=menuItem (deleteMenuItemEvent)="deleteMenuItem($event)" [config]="typeConfig">
+      <app-menu-item [menuItem]=menuItem [config]="typeConfig">
       </app-menu-item>
     </ul>
-    <button  *ngIf="typeConfig.state === 'AVAILABLE'" class="btn btn-secondary new-item-button" (click)="displayNewEntryModal()">
-      <fa-icon [icon]="faPlus"></fa-icon>
-      Dodaj nowy przedmiot
-    </button>
   </div>
 </div>

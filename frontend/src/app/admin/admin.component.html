@@ -1,0 +1,22 @@
+<h1>Restaurants awaiting confirmation</h1>
+<div class="app-container">
+  <app-spinner class="spinner" *ngIf="isSpinnerEnabled(config.spinnerId)" [spinnerType]="getSpinnerType()" [message]="'Loading...'"></app-spinner>
+  <div *ngIf="!isSpinnerEnabled(config.spinnerId)">
+    <h5 *ngIf="config.restaurants.length === 0">No items</h5>
+    <ul class="menu-item-list" *ngFor="let restaurant of config.restaurants">
+      <li>
+        <div class="text-container">
+          <h3>{{restaurant?.name}}</h3>
+          <h5>{{restaurant?.addressStreet + '  '  + restaurant?.addressBuildingNumber + '  ' + restaurant?.addressFlatNumber}}</h5>
+          <h5>{{restaurant?.addressCity}}</h5>
+        </div>
+        <div *ngFor="let buttonConfig of config?.buttonConfigs">
+          <button [class]="buttonConfig.cssClass" (click)="buttonConfig.action(restaurant)">
+            {{buttonConfig.text}}
+            <fa-icon [icon]="buttonConfig.icon"></fa-icon>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

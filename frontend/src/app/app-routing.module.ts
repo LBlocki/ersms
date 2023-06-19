@@ -1,16 +1,18 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {OwnerComponent} from "./owner/owner.component";
+import {AdminComponent} from "./admin/admin.component";
+import {UserComponent} from "./user/user.component";
 
 
 const routes: Routes = [
   {
     path: 'user',
-    component: OwnerComponent,
+    component: UserComponent,
   },
   {
     path: 'admin',
-    component: OwnerComponent,
+    component: AdminComponent,
   },
   {
     path: 'owner',
@@ -18,10 +20,10 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: OwnerComponent,
+    component: UserComponent,
     pathMatch: 'full',
   },
-  {path: '', redirectTo: '/owner', pathMatch: 'full'}, // redirect to
+  {path: '', redirectTo: '/user', pathMatch: 'full'}, // redirect to
 ];
 
 

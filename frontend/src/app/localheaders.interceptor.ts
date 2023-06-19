@@ -17,7 +17,7 @@ export class LocalheadersInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const modifiedRequest = request.clone({
       setHeaders: {
-        'Local-roles': 'ROLE_RESTAURANT_OWNER',
+        'Local-roles': 'ROLE_CLIENT',
         'Local-username': 'test_user'
       }
     });

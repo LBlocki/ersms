@@ -15,6 +15,7 @@ import java.util.Collection;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class RestaurantController {
 
     private final RestaurantService restaurantService;

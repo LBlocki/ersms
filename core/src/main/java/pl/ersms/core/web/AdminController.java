@@ -1,16 +1,14 @@
 package pl.ersms.core.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.ersms.core.service.AdminService;
 import pl.ersms.core.utils.Paths;
 
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class AdminController {
 
     private final AdminService adminService;

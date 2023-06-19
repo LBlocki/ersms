@@ -63,11 +63,11 @@ resource "azurerm_servicebus_namespace" "ersms_servicebus" {
 #   resource_group_name = azurerm_resource_group.rg.name
 # }
 
-# resource "azurerm_servicebus_queue" "notifications" {
-#   name                = "notifications"
-#   namespace_name      = azurerm_servicebus_namespace.ersms_servicebus.name
-#   resource_group_name = azurerm_resource_group.rg.name
-# }
+resource "azurerm_servicebus_queue" "notifications" {
+  name = "notifications"
+
+  namespace_id = azurerm_servicebus_namespace.ersms_servicebus.id
+}
 
 # resource "azurerm_servicebus_namespace_authorization_rule" "ersms_servicebus_auth_rule" {
 #   name                = "ersms-servicebus-auth-rule"

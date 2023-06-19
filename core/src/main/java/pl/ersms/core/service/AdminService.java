@@ -4,9 +4,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.ersms.core.domain.Restaurant;
 import pl.ersms.core.infrastructure.mssql.RestaurantRepository;
 import pl.ersms.core.security.SecurityService;
 import pl.ersms.core.service.validator.AdminValidator;
+import pl.ersms.core.web.converter.RestaurantConverter;
+import pl.ersms.core.web.dto.RestaurantDTO;
+
+import java.util.Collection;
 
 @Slf4j
 @Service
@@ -24,6 +29,17 @@ public class AdminService {
         var restaurant = restaurantRepository.findByRestaurantId(restaurantId).orElseThrow();
         restaurant.setIsApproved(true);
         restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public Collection<RestaurantDTO> fetchAllRestaurantsNotApproved() {
+        adminValidator.validateFetchAllRestaurantsRequest();
+        log.info("Fetching all restaurants by administrator {}", securityService.getUsername());
+        var restaurants = restaurantRepository.findAll();
+        return restaurants.stream()
+                .filter(restaurant -> !restaurant.getIsApproved())
+                .map(RestaurantConverter::convertRestaurantToDTO)
+                .toList();
     }
 
     @Transactional

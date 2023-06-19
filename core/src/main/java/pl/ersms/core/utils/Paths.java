@@ -17,6 +17,7 @@ public class Paths {
     public static final String DELETE_MENU_ITEM = "/api/restaurant/menu-items/delete";
 
     public static final String ADMIN_APPROVE_RESTAURANT = "/api/admin/restaurant/approve";
+    public static final String ADMIN_GET_ALL_RESTAURANTS = "/api/admin/restaurants";
 
     public static final String ADMIN_DELETE_RESTAURANT = "/api/admin/restaurant/delete";
 

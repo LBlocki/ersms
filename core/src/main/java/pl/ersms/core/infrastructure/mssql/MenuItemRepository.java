@@ -15,8 +15,6 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
 
     Collection<MenuItem> findByRestaurant_RestaurantIdAndAcceptedUserIdNotNullAndCollectedDateNotNull(@NonNull Long restaurantId);
 
-    void deleteById(@NonNull Long menuItemId);
-
     Collection<MenuItem> findAllByPendingUserIdNull();
 
     Collection<MenuItem> findAllByPendingUserIdAndAcceptedUserIdIsNull(@NonNull String userId);

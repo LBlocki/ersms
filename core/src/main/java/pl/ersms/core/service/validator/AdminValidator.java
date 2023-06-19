@@ -26,6 +26,12 @@ public class AdminValidator {
         }
     }
 
+    public void validateFetchAllRestaurantsRequest() {
+        if (!securityService.isAdmin()) {
+            throw new ConstraintViolationException("Only admins can fetch all restaurants", Collections.emptySet());
+        }
+    }
+
     public void validateDeleteRestaurantRequest(final Long restaurantId) {
         validateNotNullRequest(restaurantId);
         if (!securityService.isAdmin()) {

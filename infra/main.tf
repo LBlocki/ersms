@@ -56,13 +56,6 @@ resource "azurerm_servicebus_namespace" "ersms_servicebus" {
   sku                 = "Standard"
 }
 
-# Event grid
-# resource "azurerm_eventgrid_topic" "ersms_eventgrid_topic" {
-#   name                = "ersms-eventgrid-topic"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-# }
-
 resource "azurerm_servicebus_queue" "notifications" {
   name = "notifications"
 
@@ -78,46 +71,52 @@ resource "azurerm_servicebus_queue" "notifications" {
 #   manage              = false
 # }
 
+# Event grid
+# resource "azurerm_eventgrid_topic" "ersms_eventgrid_topic" {
+#   name                = "ersms-eventgrid-topic"
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+# }
 # Function app
-resource "azurerm_storage_account" "ersms_notification_function_storage_account" {
-  name                     = "ersmsfunctionsa"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
+# resource "azurerm_storage_account" "ersms_notification_function_storage_account" {
+#   name                     = "ersmsfunctionsa"
+#   resource_group_name      = azurerm_resource_group.rg.name
+#   location                 = azurerm_resource_group.rg.location
+#   account_tier             = "Standard"
+#   account_replication_type = "LRS"
+# }
 
-resource "azurerm_service_plan" "ersms_service_plan" {
-  name                = "ersms-service-plan"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  os_type             = "Linux"
-  sku_name            = "Y1"
-}
+# resource "azurerm_service_plan" "ersms_service_plan" {
+#   name                = "ersms-service-plan"
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+#   os_type             = "Linux"
+#   sku_name            = "Y1"
+# }
 
-resource "azurerm_linux_function_app" "ersms_notification_function" {
-  name                = "ersms-notification-function"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+# resource "azurerm_linux_function_app" "ersms_notification_function" {
+#   name                = "ersms-notification-function"
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
 
-  service_plan_id            = azurerm_service_plan.ersms_service_plan.id
-  storage_account_name       = azurerm_storage_account.ersms_notification_function_storage_account.name
-  storage_account_access_key = azurerm_storage_account.ersms_notification_function_storage_account.primary_access_key
+#   service_plan_id            = azurerm_service_plan.ersms_service_plan.id
+#   storage_account_name       = azurerm_storage_account.ersms_notification_function_storage_account.name
+#   storage_account_access_key = azurerm_storage_account.ersms_notification_function_storage_account.primary_access_key
 
-  site_config {
-    cors {
-      allowed_origins     = ["*"]
-      support_credentials = false
-    }
-    application_stack {
-      dotnet_version = "6.0"
-    }
-    # app_command_line         = "ersms-notification-function.dll"
-  }
+#   site_config {
+#     cors {
+#       allowed_origins     = ["*"]
+#       support_credentials = false
+#     }
+#     application_stack {
+#       dotnet_version = "6.0"
+#     }
+#     # app_command_line         = "ersms-notification-function.dll"
+#   }
 
-  app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME"   = "dotnet"
-    "AzureWebJobsStorage"        = azurerm_storage_account.ersms_notification_function_storage_account.primary_connection_string
-    "ServiceBusConnectionString" = azurerm_servicebus_namespace.ersms_servicebus.default_primary_connection_string
-  }
-}
+#   app_settings = {
+#     "FUNCTIONS_WORKER_RUNTIME"   = "dotnet"
+#     "AzureWebJobsStorage"        = azurerm_storage_account.ersms_notification_function_storage_account.primary_connection_string
+#     "ServiceBusConnectionString" = azurerm_servicebus_namespace.ersms_servicebus.default_primary_connection_string
+#   }
+# }

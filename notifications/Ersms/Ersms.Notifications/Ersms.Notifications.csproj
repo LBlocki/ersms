@@ -7,4 +7,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Azure.Communication.Email" Version="1.0.0" />
+      <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.15.0" />
+    </ItemGroup>
+
 </Project>

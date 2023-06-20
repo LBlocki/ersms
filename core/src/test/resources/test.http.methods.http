@@ -107,7 +107,10 @@ Local-username: local-user-1
 
 ###
 # ADMIN #################################################################
-
+GET http://localhost:8080/api/admin/restaurants
+Accept: application/json
+Local-roles: ROLE_ADMIN
+Local-username: test_user
 
 ### POST Approve restaurant
 POST http://localhost:8080/api/admin/restaurant/approve/1

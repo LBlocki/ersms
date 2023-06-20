@@ -1,4 +1,4 @@
-<h1>Restaurants awaiting confirmation</h1>
+<h1 class="title-h1">Restaurants awaiting confirmation</h1>
 <div class="app-container">
   <app-spinner class="spinner" *ngIf="isSpinnerEnabled(config.spinnerId)" [spinnerType]="getSpinnerType()" [message]="'Loading...'"></app-spinner>
   <div *ngIf="!isSpinnerEnabled(config.spinnerId)">
@@ -10,11 +10,13 @@
           <h5>{{restaurant?.addressStreet + '  '  + restaurant?.addressBuildingNumber + '  ' + restaurant?.addressFlatNumber}}</h5>
           <h5>{{restaurant?.addressCity}}</h5>
         </div>
-        <div *ngFor="let buttonConfig of config?.buttonConfigs">
-          <button [class]="buttonConfig.cssClass" (click)="buttonConfig.action(restaurant)">
-            {{buttonConfig.text}}
-            <fa-icon [icon]="buttonConfig.icon"></fa-icon>
-          </button>
+        <div class="btn-container">
+          <div *ngFor="let buttonConfig of config?.buttonConfigs" class="btn-wrapper">
+            <button [class]="buttonConfig.cssClass" (click)="buttonConfig.action(restaurant)">
+              {{buttonConfig.text}}
+              <fa-icon [icon]="buttonConfig.icon"></fa-icon>
+            </button>
+          </div>
         </div>
       </li>
     </ul>

@@ -15,7 +15,7 @@ export class NotificationHttpInterceptorService implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status !== 401) {
-          this.showError(error.status + ': Błąd komunikacji z serwerem', error.message);
+          this.showError(error.status + ': Error during server communication', error.message);
         }
         return throwError(error);
       })

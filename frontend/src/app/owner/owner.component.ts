@@ -171,13 +171,8 @@ export class OwnerComponent implements OnInit, OnDestroy {
   }
 
   displayNewEntryModal() {
-    //todo
-    console.log('todo')
     this.bsModalRef = this.modalService.show(NewEntryModalComponent)
-
-    this.bsModalRef.content.savedNewEntryStatusesChanged.subscribe(() =>
-    {
-      console.log()
+    this.bsModalRef.content.savedNewEntryStatusesChanged.subscribe(() => {
       this.loadItems();
     });
   }

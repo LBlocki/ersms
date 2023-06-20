@@ -103,7 +103,7 @@ public class RestaurantService {
             }
             case DENY -> {
                 menuItem.setPendingUserId(null);
-                return MenuItemConverter.convertMenuItemToDTO(menuItemRepository.save(menuItem), MenuItem.State.PENDING);
+                return MenuItemConverter.convertMenuItemToDTO(menuItemRepository.save(menuItem), MenuItem.State.AVAILABLE);
             }
             case COMPLETE -> {
                 menuItem.setCollectedDate(Timestamp.valueOf(LocalDateTime.now(ZoneOffset.UTC)));

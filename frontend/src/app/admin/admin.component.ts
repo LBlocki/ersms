@@ -4,6 +4,7 @@ import {faArrowRight, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {RestaurantDto} from "../../generated-code/models/restaurant-dto";
 import {AdminControllerService} from "../../generated-code/services/admin-controller.service";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {MenuItemDto} from "../../generated-code/models/menu-item-dto";
 
 @Component({
   selector: 'app-admin',
@@ -53,20 +54,16 @@ export class AdminComponent implements OnInit {
 
   loadItems() {
     this.spinnerService.enableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, this.config?.spinnerId);
-    //todo
-    this.config.restaurants = [
-      {
-        id: 1,
-        name: "Restaurant 1",
-        addressCity: "Warszawa",
-        addressStreet: "Koszykowa",
-        addressBuildingNumber: "86",
-        addressFlatNumber: undefined,
-        phoneNumber: "123456789",
-        isApproved: false
+    this.adminControllerService.fetchAllAwaitingForApprovalRestaurants().subscribe({
+      next: (data: Array<RestaurantDto>) => {
+        this.config.restaurants = data;
+        this.spinnerService.disableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, this.config.spinnerId);
+      },
+      error: () => {
+        this.spinnerService.disableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, this.config.spinnerId);
+        this.config.restaurants = [];
       }
-    ];
-    this.spinnerService.disableSpinner(SpinnerType.LOADING_MENU_ITEMS_SPINNER, this.config?.spinnerId);
+    });
   }
 
   isSpinnerEnabled(spinnerId: number): boolean {

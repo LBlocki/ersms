@@ -1,13 +1,15 @@
 /* tslint:disable */
 /* eslint-disable */
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpContext } from '@angular/common/http';
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
-import { RequestBuilder } from '../request-builder';
-import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpContext, HttpResponse} from '@angular/common/http';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
+import {RequestBuilder} from '../request-builder';
+import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import {MenuItemDto} from "../models/menu-item-dto";
+import {RestaurantDto} from "../models/restaurant-dto";
 
 
 @Injectable({
@@ -33,11 +35,10 @@ export class AdminControllerService extends BaseService {
    * This method doesn't expect any request body.
    */
   approveRestaurant$Response(params: {
-    restaurantId: number;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<void>> {
+                               restaurantId: number;
+                             },
+                             context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, AdminControllerService.ApproveRestaurantPath, 'post');
     if (params) {
@@ -51,7 +52,7 @@ export class AdminControllerService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return (r as HttpResponse<any>).clone({body: undefined}) as StrictHttpResponse<void>;
       })
     );
   }
@@ -63,13 +64,12 @@ export class AdminControllerService extends BaseService {
    * This method doesn't expect any request body.
    */
   approveRestaurant(params: {
-    restaurantId: number;
-  },
-  context?: HttpContext
+                      restaurantId: number;
+                    },
+                    context?: HttpContext
+  ): Observable<void> {
 
-): Observable<void> {
-
-    return this.approveRestaurant$Response(params,context).pipe(
+    return this.approveRestaurant$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -86,11 +86,10 @@ export class AdminControllerService extends BaseService {
    * This method doesn't expect any request body.
    */
   deleteRestaurant1$Response(params: {
-    restaurantId: number;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<void>> {
+                               restaurantId: number;
+                             },
+                             context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, AdminControllerService.DeleteRestaurant1Path, 'delete');
     if (params) {
@@ -104,7 +103,7 @@ export class AdminControllerService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return (r as HttpResponse<any>).clone({body: undefined}) as StrictHttpResponse<void>;
       })
     );
   }
@@ -116,15 +115,28 @@ export class AdminControllerService extends BaseService {
    * This method doesn't expect any request body.
    */
   deleteRestaurant1(params: {
-    restaurantId: number;
-  },
-  context?: HttpContext
+                      restaurantId: number;
+                    },
+                    context?: HttpContext
+  ): Observable<void> {
 
-): Observable<void> {
-
-    return this.deleteRestaurant1$Response(params,context).pipe(
+    return this.deleteRestaurant1$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
+  }
+
+  fetchAllAwaitingForApprovalRestaurants(context?: HttpContext): Observable<any> {
+    const rb = new RequestBuilder(this.rootUrl, '/api/admin/restaurants', 'get');
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<RestaurantDto>>;
+      })
+    ).pipe(map((r: StrictHttpResponse<Array<MenuItemDto>>) => r.body as Array<MenuItemDto>));
   }
 
 }

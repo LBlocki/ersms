@@ -2,9 +2,17 @@ li {
   border: 3px solid #ebebeb;
   padding: 50px 30px 30px;
   transition: .5s;
-  display: flex;
-  flex-wrap: wrap;
   position: relative;
+
+  .btn-container {
+    display: flex;
+    justify-content: flex-end;
+
+    .btn-wrapper {
+      margin-right: 15px;
+    }
+
+  }
 
   .text-container {
     display: flex;

@@ -4,12 +4,15 @@
     <h5>{{menuItem?.price}}</h5>
     <h5>{{menuItem?.description}}</h5>
   </div>
-  <div *ngFor="let buttonConfig of config?.buttonConfigs">
-    <button [class]="buttonConfig.cssClass" (click)="buttonConfig.action(menuItem)">
-      {{buttonConfig.text}}
-      <fa-icon [icon]="buttonConfig.icon"></fa-icon>
-    </button>
+  <div class="btn-container">
+    <div *ngFor="let buttonConfig of config?.buttonConfigs" class="btn-wrapper">
+      <button [class]="buttonConfig.cssClass" (click)="buttonConfig.action(menuItem)">
+        {{buttonConfig.text}}
+        <fa-icon [icon]="buttonConfig.icon"></fa-icon>
+      </button>
+    </div>
   </div>
+
   <div class="action-icon-container" *ngIf="config?.canBeRemoved">
     <fa-icon class="delete-icon" (click)="deleteMenuItem()" [icon]="faWindowClose"></fa-icon>
   </div>

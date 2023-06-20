@@ -2,6 +2,7 @@
   "name": "ersms-frontend",
   "version": "0.0.0",
   "scripts": {
+    "build": "ng build --configuration production",
     "ng": "ng",
     "start": "ng serve"
   },

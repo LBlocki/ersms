@@ -1,5 +1,6 @@
 package pl.ersms.core.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.ersms.core.service.RestaurantService;
@@ -41,7 +42,7 @@ public class RestaurantController {
     }
 
     @PostMapping(path = Paths.CHANGE_MENU_ITEM_STATE_BY_RESTAURANT, consumes = "application/json", produces = "application/json")
-    public MenuItemDTO changeMenuItemStateByRestaurant(@RequestBody final ChangeMenuItemStateByRestaurantRequest request) {
+    public MenuItemDTO changeMenuItemStateByRestaurant(@RequestBody final ChangeMenuItemStateByRestaurantRequest request) throws JsonProcessingException {
         return restaurantService.changeMenuItemStateByRestaurant(request);
     }
 

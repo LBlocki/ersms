@@ -17,7 +17,7 @@ export class AdminComponent implements OnInit {
     restaurants: [],
     buttonConfigs: [
       {
-        text: "Zaakceptuj",
+        text: "Accept",
         cssClass: "btn btn-success",
         icon: faArrowRight,
         action: (restaurant: RestaurantDto) => {
@@ -30,7 +30,7 @@ export class AdminComponent implements OnInit {
         }
       },
       {
-        text: "Odrzuć",
+        text: "Reject",
         cssClass: "btn btn-danger",
         icon: faTimes,
         action: (restaurant: RestaurantDto) => {

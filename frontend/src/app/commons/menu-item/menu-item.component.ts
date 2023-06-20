@@ -46,6 +46,7 @@ export interface Config {
   canBeRemoved: boolean;
   buttonConfigs: ButtonConfig[];
   spinnerId: number;
+  shouldDisplayRestaurantName?: boolean;
 }
 
 export interface ButtonConfig {

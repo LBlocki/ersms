@@ -21,7 +21,8 @@ export class UserComponent implements OnInit, OnDestroy {
         topName: "Available for reservation",
         state: "AVAILABLE",
         menuItems: [],
-        canBeRemoved: true,
+        canBeRemoved: false,
+        shouldDisplayRestaurantName: true,
         buttonConfigs: [
           {
             text: "Reserve",
@@ -44,7 +45,8 @@ export class UserComponent implements OnInit, OnDestroy {
         topName: "Awaiting confirmation from restaurant",
         state: "PENDING",
         menuItems: [],
-        canBeRemoved: true,
+        canBeRemoved: false,
+        shouldDisplayRestaurantName: true,
         buttonConfigs: [
           {
             text: "Cancel",
@@ -69,6 +71,7 @@ export class UserComponent implements OnInit, OnDestroy {
         state: "RESERVED",
         menuItems: [],
         canBeRemoved: false,
+        shouldDisplayRestaurantName: true,
         buttonConfigs: [
           {
             text: "Cancel",
@@ -91,6 +94,7 @@ export class UserComponent implements OnInit, OnDestroy {
       {
         topName: "Finished",
         state: "FINISHED",
+        shouldDisplayRestaurantName: true,
         menuItems: [],
         canBeRemoved: false,
         buttonConfigs: [],

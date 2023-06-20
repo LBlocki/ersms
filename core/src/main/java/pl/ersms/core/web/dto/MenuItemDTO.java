@@ -11,6 +11,8 @@ public record MenuItemDTO(
         @NonNull
         Long restaurantId,
         @NonNull
+        String restaurantName,
+        @NonNull
         String name,
         @NonNull
         String description,

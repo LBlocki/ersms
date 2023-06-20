@@ -39,7 +39,7 @@ export class OwnerComponent implements OnInit, OnDestroy {
         canBeRemoved: true,
         buttonConfigs: [
           {
-            text: "Zaakceptuj",
+            text: "Accept",
             cssClass: "btn btn-success",
             icon: faArrowRight,
             action: (menuItem: MenuItemDto) => {
@@ -54,7 +54,7 @@ export class OwnerComponent implements OnInit, OnDestroy {
             }
           },
           {
-            text: "Odrzuć",
+            text: "Reject",
             cssClass: "btn btn-danger",
             icon: faTimes,
             action: (menuItem: MenuItemDto) => {
@@ -78,7 +78,7 @@ export class OwnerComponent implements OnInit, OnDestroy {
         canBeRemoved: false,
         buttonConfigs: [
           {
-            text: "Zakończ",
+            text: "Complete",
             cssClass: "btn btn-success",
             icon: faArrowRight,
             action: (menuItem: MenuItemDto) => {

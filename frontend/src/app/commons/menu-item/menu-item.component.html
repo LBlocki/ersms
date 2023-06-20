@@ -3,6 +3,7 @@
     <h3>{{menuItem?.name}}</h3>
     <h5>{{menuItem?.price}}</h5>
     <h5>{{menuItem?.description}}</h5>
+    <h5 *ngIf="config?.shouldDisplayRestaurantName">Restaurant: {{menuItem.restaurantName}}</h5>
   </div>
   <div class="btn-container">
     <div *ngFor="let buttonConfig of config?.buttonConfigs" class="btn-wrapper">

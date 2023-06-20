@@ -1,0 +1,38 @@
+nav {
+  background-color: #333;
+  height: 60px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  align-items: center; /* Center vertically */
+}
+
+nav .title {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+nav ul li.logout {
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 18px;
+  background-color: #ff6347; /* Nice color: Coral */
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background-color: #ff483b; /* Darker shade of Coral */
+}

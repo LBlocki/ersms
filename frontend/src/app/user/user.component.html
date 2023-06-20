@@ -1,4 +1,4 @@
-<h1 class="title-h1">Welcome dear user</h1>
+<h1 class="title-h1">Welcome to SecondBite</h1>
 <div class="app-container" *ngFor="let typeConfig of configs">
   <h2>{{typeConfig.topName}}</h2>
   <app-spinner class="spinner" *ngIf="isSpinnerEnabled(typeConfig.spinnerId)" [spinnerType]="getSpinnerType()" [message]="'Loading...'"></app-spinner>

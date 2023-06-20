@@ -5,6 +5,7 @@ export interface MenuItemDto {
   id?: number;
   name?: string;
   price?: number;
+  restaurantName?: string;
   restaurantId?: number;
   state?: 'AVAILABLE' | 'PENDING' | 'RESERVED' | 'FINISHED';
 }

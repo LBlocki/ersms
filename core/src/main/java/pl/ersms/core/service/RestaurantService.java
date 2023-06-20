@@ -1,5 +1,6 @@
 package pl.ersms.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +89,7 @@ public class RestaurantService {
     }
 
     @Transactional
-    public MenuItemDTO changeMenuItemStateByRestaurant(final ChangeMenuItemStateByRestaurantRequest request) {
+    public MenuItemDTO changeMenuItemStateByRestaurant(final ChangeMenuItemStateByRestaurantRequest request) throws JsonProcessingException {
         restaurantValidator.validateChangeMenuItemStateByRestaurantRequest(request);
         log.debug("Switching menu item state for user {} and request {}", securityService.getUsername(), request);
         var menuItem = menuItemRepository.findById(request.menuItemId()).orElseThrow();

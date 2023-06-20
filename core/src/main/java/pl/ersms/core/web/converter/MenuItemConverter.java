@@ -14,6 +14,7 @@ public class MenuItemConverter {
         return new MenuItemDTO(
                 menuItem.getId(),
                 menuItem.getRestaurant().getRestaurantId(),
+                menuItem.getRestaurant().getName(),
                 menuItem.getName(),
                 menuItem.getDescription(),
                 menuItem.getPrice(),

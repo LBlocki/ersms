@@ -18,7 +18,7 @@ public class SecurityService {
     }
 
     public boolean isClient() {
-        return getUserRoles().contains(Roles.CLIENT);
+        return getUserRoles().isEmpty();
     }
 
     public boolean isRestaurantOwner() {

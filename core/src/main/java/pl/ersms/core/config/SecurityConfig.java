@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
+import pl.ersms.core.security.AzureClaimsMappingFilter;
+import pl.ersms.core.security.AzureJwtTokenFilter;
 import pl.ersms.core.security.LocalAuthenticationFilter;
 
 @Configuration(proxyBeanMethods = false)
@@ -20,7 +23,7 @@ public class SecurityConfig {
 
     @Bean
     @ConditionalOnProperty(name = "application.security.disabled", havingValue = "true")
-    SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain localFilterChain(HttpSecurity http) throws Exception {
         log.info("[MOCK] Using local security configuration");
         http.headers()
                 .xssProtection()
@@ -36,6 +39,27 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterAt(new LocalAuthenticationFilter(), BasicAuthenticationFilter.class);
+        return http.build();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "application.security.disabled", havingValue = "false", matchIfMissing = true)
+    SecurityFilterChain defaultFilterChain(HttpSecurity http) throws Exception {
+        http.headers()
+                .xssProtection()
+                .and()
+                .contentSecurityPolicy("script-src 'self'")
+                .and()
+                .and()
+                .csrf().disable()   //self set headers
+                .httpBasic().disable()
+                .formLogin().disable()
+                .authorizeHttpRequests()
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterAt(new AzureJwtTokenFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new AzureClaimsMappingFilter(), AzureJwtTokenFilter.class);
         return http.build();
     }
 }

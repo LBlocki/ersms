@@ -1,0 +1,23 @@
+name: Build and deploy docker image to Azure
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  pushDockerImage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout project
+      - uses: azure/docker-login@v1
+        name: Login to Azure Container Registry, build and push docker image
+        with:
+          login-server: ${{ secrets.AZURE_CR_SERVER }}
+          username: ${{ secrets.AZURE_CR_USERNAME }}
+          password: ${{ secrets.AZURE_CR_PASSWORD }}
+      - run: |
+          docker build . -t ${{ secrets.AZURE_CR_SERVER }}/ersmscontainer:${{ github.sha }}
+          docker push ${{ secrets.AZURE_CR_SERVER }}/ersmscontainer:${{ github.sha }}

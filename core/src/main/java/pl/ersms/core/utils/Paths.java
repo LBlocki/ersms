@@ -31,4 +31,6 @@ public class Paths {
 
     public static final String FETCH_OWN_RESTAURANT = "/api/restaurant/fetch";
 
+    public static final String AZURE_CLAIMS_MAPPING = "/api/azure/claims-mapping";
+
 }
